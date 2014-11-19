@@ -82,17 +82,12 @@ public class UriRouter {
     }
 
     public String getType(Uri uri) {
-        // TODO implement
-        //        switch (uriMatcher.match(uri)){
-//            /** Get all student records **/
-//            case STUDENTS:
-//                return "vnd.android.cursor.dir/vnd." + AUTHORITY + "." + DatabaseHelper.STUDENTS_TABLE_NAME;
-//            /** Get a particular student **/
-//            case STUDENT_ID:
-//                return "vnd.android.cursor.item/vnd." + AUTHORITY + "." + DatabaseHelper.STUDENTS_TABLE_NAME;
-//            default:
-//                throw new IllegalArgumentException("Unsupported URI: " + uri);
-//        }
+        int match = mUriMatcher.match(uri);
+        if (match != UriMatcher.NO_MATCH) {
+            return mUriRoutes.get(match).getType(uri);
+        }
+
+        Logger.d("Uri Router - Get Type failed - no route for " + uri);
         return null;
     }
 
@@ -109,6 +104,8 @@ public class UriRouter {
 
     public interface UriRoute {
         public List<String> getPaths();
+
+        public String getType(Uri uri);
 
         public Cursor query(SQLiteDatabase db, Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
         public Uri insert(SQLiteDatabase db, Uri uri, ContentValues values);

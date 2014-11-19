@@ -1,10 +1,7 @@
 package com.example.providers.content;
 
 import android.content.ContentProvider;
-import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
 import android.content.ContentValues;
-import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -13,8 +10,6 @@ import com.example.providers.Logger;
 import com.example.providers.tables.ArtistTable;
 import com.example.providers.tables.GenreTable;
 import com.example.providers.tables.SongTable;
-
-import java.util.ArrayList;
 
 public class MusicProvider extends ContentProvider {
 
@@ -40,6 +35,7 @@ public class MusicProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         Logger.d("Querying provider with uri: " + uri);
+        Logger.d("Type: " + getType(uri));
         return UriRouter.getInstance().query(getDB(), uri, projection, selection, selectionArgs, sortOrder);
     }
 

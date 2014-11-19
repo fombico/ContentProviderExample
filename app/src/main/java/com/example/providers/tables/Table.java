@@ -37,6 +37,11 @@ public abstract class Table implements UriRouter.UriRoute {
     }
 
     @Override
+    public String getType(Uri uri) {
+        return null;
+    }
+
+    @Override
     public int bulkInsert(SQLiteDatabase db, Uri uri, ContentValues[] values) {
         int count = 0;
         for(ContentValues contentValues : values) {

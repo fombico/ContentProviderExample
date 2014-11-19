@@ -1,5 +1,6 @@
 package com.example.providers.tables;
 
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
@@ -30,13 +31,18 @@ public class ArtistTable extends Table {
             + Columns.ARTIST_NAME + " TEXT NOT NULL, "
             + "UNIQUE ("+ Columns.ARTIST_NAME + ") ON CONFLICT REPLACE);";
 
-    static final int ARTISTS_DIR = 1;
-    static final int ARTISTS_ITEM = 2;
-    static final UriMatcher sUriMatcher;
+    private class Paths {
+        static final String ARTIST_DIR = TABLE_NAME;
+        static final String ARTIST_ITEM = TABLE_NAME + "/#";
+    }
+
+    private static final int ARTISTS_DIR = 1;
+    private static final int ARTISTS_ITEM = 2;
+    private static final UriMatcher sUriMatcher;
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        sUriMatcher.addURI(MusicProvider.AUTHORITY, TABLE_NAME, ARTISTS_DIR);
-        sUriMatcher.addURI(MusicProvider.AUTHORITY, TABLE_NAME + "/#", ARTISTS_ITEM);
+        sUriMatcher.addURI(MusicProvider.AUTHORITY, Paths.ARTIST_DIR, ARTISTS_DIR);
+        sUriMatcher.addURI(MusicProvider.AUTHORITY, Paths.ARTIST_ITEM, ARTISTS_ITEM);
     }
 
     private static ArtistTable sTable;
@@ -65,9 +71,20 @@ public class ArtistTable extends Table {
     @Override
     public List<String> getPaths() {
         List<String> paths = new ArrayList<String>();
-        paths.add(TABLE_NAME);
-        paths.add(TABLE_NAME + "/#");
+        paths.add(Paths.ARTIST_DIR);
+        paths.add(Paths.ARTIST_ITEM);
         return paths;
+    }
+
+    @Override
+    public String getType(Uri uri) {
+        switch (sUriMatcher.match(uri)){
+            case ARTISTS_DIR:
+                return ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd." + MusicProvider.AUTHORITY + "." + ArtistTable.TABLE_NAME;
+            case ARTISTS_ITEM:
+                return ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd." + MusicProvider.AUTHORITY + "." + ArtistTable.TABLE_NAME;
+        }
+        return super.getType(uri);
     }
 
     @Override

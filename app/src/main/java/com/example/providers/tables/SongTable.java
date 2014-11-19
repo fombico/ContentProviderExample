@@ -1,5 +1,6 @@
 package com.example.providers.tables;
 
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
@@ -8,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.webkit.MimeTypeMap;
 
 import com.example.providers.Logger;
 import com.example.providers.content.MusicProvider;
@@ -30,13 +32,19 @@ public class SongTable extends Table {
             + Columns.SONG_NAME + " TEXT NOT NULL, "
             + "UNIQUE (" + Columns.SONG_NAME + ") ON CONFLICT REPLACE);";
 
-    static final int SONG_DIR = 1;
-    static final int SONG_ITEM = 2;
-    static final UriMatcher sUriMatcher;
+
+    private class Paths {
+        static final String SONG_DIR = TABLE_NAME;
+        static final String SONG_ITEM = TABLE_NAME + "/#";
+    }
+
+    private static final int SONG_DIR = 1;
+    private static final int SONG_ITEM = 2;
+    private static final UriMatcher sUriMatcher;
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        sUriMatcher.addURI(MusicProvider.AUTHORITY, TABLE_NAME, SONG_DIR);
-        sUriMatcher.addURI(MusicProvider.AUTHORITY, TABLE_NAME + "/#", SONG_ITEM);
+        sUriMatcher.addURI(MusicProvider.AUTHORITY, Paths.SONG_DIR, SONG_DIR);
+        sUriMatcher.addURI(MusicProvider.AUTHORITY, Paths.SONG_ITEM, SONG_ITEM);
     }
 
     private static SongTable sTable;
@@ -65,9 +73,20 @@ public class SongTable extends Table {
     @Override
     public List<String> getPaths() {
         List<String> paths = new ArrayList<String>();
-        paths.add(TABLE_NAME);
-        paths.add(TABLE_NAME + "/#");
+        paths.add(Paths.SONG_DIR);
+        paths.add(Paths.SONG_ITEM);
         return paths;
+    }
+
+    @Override
+    public String getType(Uri uri) {
+        switch (sUriMatcher.match(uri)){
+            case SONG_DIR:
+                return ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd." + MusicProvider.AUTHORITY + "." + SongTable.TABLE_NAME;
+            case SONG_ITEM:
+                return ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd." + MusicProvider.AUTHORITY + "." + SongTable.TABLE_NAME;
+        }
+        return super.getType(uri);
     }
 
     @Override

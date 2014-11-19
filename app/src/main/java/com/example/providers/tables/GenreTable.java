@@ -1,5 +1,6 @@
 package com.example.providers.tables;
 
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
@@ -30,13 +31,19 @@ public class GenreTable extends Table {
             + Columns.GENRE_NAME + " TEXT NOT NULL, "
             + "UNIQUE ("+ Columns.GENRE_NAME + ") ON CONFLICT REPLACE);";
 
-    static final int GENRE_DIR = 1;
-    static final int GENRE_ITEM = 2;
-    static final UriMatcher sUriMatcher;
+
+    private class Paths {
+        static final String GENRE_DIR = TABLE_NAME;
+        static final String GENRE_ITEM = TABLE_NAME + "/#";
+    }
+
+    private static final int GENRE_DIR = 1;
+    private static final int GENRE_ITEM = 2;
+    private static final UriMatcher sUriMatcher;
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        sUriMatcher.addURI(MusicProvider.AUTHORITY, TABLE_NAME, GENRE_DIR);
-        sUriMatcher.addURI(MusicProvider.AUTHORITY, TABLE_NAME + "/#", GENRE_ITEM);
+        sUriMatcher.addURI(MusicProvider.AUTHORITY, Paths.GENRE_DIR, GENRE_DIR);
+        sUriMatcher.addURI(MusicProvider.AUTHORITY, Paths.GENRE_ITEM, GENRE_ITEM);
     }
 
     private static GenreTable sTable;
@@ -65,9 +72,20 @@ public class GenreTable extends Table {
     @Override
     public List<String> getPaths() {
         List<String> paths = new ArrayList<String>();
-        paths.add(TABLE_NAME);
-        paths.add(TABLE_NAME + "/#");
+        paths.add(Paths.GENRE_DIR);
+        paths.add(Paths.GENRE_ITEM);
         return paths;
+    }
+
+    @Override
+    public String getType(Uri uri) {
+        switch (sUriMatcher.match(uri)){
+            case GENRE_DIR:
+                return ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd." + MusicProvider.AUTHORITY + "." + GenreTable.TABLE_NAME;
+            case GENRE_ITEM:
+                return ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd." + MusicProvider.AUTHORITY + "." + GenreTable.TABLE_NAME;
+        }
+        return super.getType(uri);
     }
 
     @Override
