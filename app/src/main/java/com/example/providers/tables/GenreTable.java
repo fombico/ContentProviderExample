@@ -65,6 +65,11 @@ public class GenreTable extends Table {
     }
 
     @Override
+    public Uri getUri() {
+        return URI;
+    }
+
+    @Override
     public String getCreateSQL() {
         return CREATE_SQL;
     }
@@ -114,20 +119,6 @@ public class GenreTable extends Table {
         Logger.d("Queried genre table, cursor size: " + cursor.getCount());
 
         return cursor;
-    }
-
-    @Override
-    public Uri insert(SQLiteDatabase db, Uri uri, ContentValues values) {
-        Logger.d("Inserting into genre table with uri " + uri.toString());
-        long rowId = db.insert(getTableName(), null, values);
-        if (rowId > 0) {
-            Logger.d("Inserted row " + rowId + " into genre table");
-            Uri rowUri = ContentUris.withAppendedId(URI, rowId);
-            getContentResolver().notifyChange(rowUri, null);
-            return rowUri;
-        }
-        Logger.d("Failed to insert to genre table");
-        return null;
     }
 
     @Override

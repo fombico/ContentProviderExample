@@ -64,6 +64,11 @@ public class ArtistTable extends Table {
     }
 
     @Override
+    public Uri getUri() {
+        return URI;
+    }
+
+    @Override
     public String getCreateSQL() {
         return CREATE_SQL;
     }
@@ -113,20 +118,6 @@ public class ArtistTable extends Table {
         Logger.d("Queried artist table, cursor size: " + cursor.getCount());
 
         return cursor;
-    }
-
-    @Override
-    public Uri insert(SQLiteDatabase db, Uri uri, ContentValues values) {
-        Logger.d("Inserting into artist table with uri " + uri.toString());
-        long rowId = db.insert(getTableName(), null, values);
-        if (rowId > 0) {
-            Logger.d("Inserted row " + rowId + " into artist table");
-            Uri rowUri = ContentUris.withAppendedId(URI, rowId);
-            getContentResolver().notifyChange(rowUri, null);
-            return rowUri;
-        }
-        Logger.d("Failed to insert to artist table");
-        return null;
     }
 
     @Override

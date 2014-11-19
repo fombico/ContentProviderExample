@@ -66,6 +66,11 @@ public class SongTable extends Table {
     }
 
     @Override
+    public Uri getUri() {
+        return URI;
+    }
+
+    @Override
     public String getCreateSQL() {
         return CREATE_SQL;
     }
@@ -115,20 +120,6 @@ public class SongTable extends Table {
         Logger.d("Queried song table, cursor size: " + cursor.getCount());
 
         return cursor;
-    }
-
-    @Override
-    public Uri insert(SQLiteDatabase db, Uri uri, ContentValues values) {
-        Logger.d("Inserting into song table with uri " + uri.toString());
-        long rowId = db.insert(getTableName(), null, values);
-        if (rowId > 0) {
-            Logger.d("Inserted row " + rowId + " into song table");
-            Uri rowUri = ContentUris.withAppendedId(URI, rowId);
-            getContentResolver().notifyChange(rowUri, null);
-            return rowUri;
-        }
-        Logger.d("Failed to insert to song table");
-        return null;
     }
 
     @Override
