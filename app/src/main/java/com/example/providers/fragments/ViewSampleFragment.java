@@ -9,12 +9,12 @@ import android.widget.CursorAdapter;
 import android.widget.ListView;
 
 import com.example.providers.R;
-import com.example.providers.adapters.SongCursorAdapter;
-import com.example.providers.database.SongTable;
+import com.example.providers.adapters.SampleViewCursorAdapter;
+import com.example.providers.database.SampleSQLView;
 
-public class SongFragment extends CursorLoaderFragment {
+public class ViewSampleFragment extends CursorLoaderFragment {
 
-    private SongCursorAdapter mAdapter;
+    private SampleViewCursorAdapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class SongFragment extends CursorLoaderFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ListView listView = (ListView) view.findViewById(R.id.listview);
-        mAdapter = new SongCursorAdapter(getActivity());
+        mAdapter = new SampleViewCursorAdapter(getActivity());
         listView.setAdapter(mAdapter);
     }
 
@@ -37,6 +37,6 @@ public class SongFragment extends CursorLoaderFragment {
 
     @Override
     public Uri getUri() {
-        return SongTable.URI;
+        return SampleSQLView.URI;
     }
 }

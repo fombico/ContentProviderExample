@@ -1,4 +1,4 @@
-package com.example.providers.tables;
+package com.example.providers.database;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -19,7 +19,7 @@ import com.example.providers.content.UriRouter;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Table implements UriRouter.UriRoute {
+public abstract class SQLTable implements UriRouter.UriRoute {
 
     public static class Columns {
         public static final String _ID = "_id";
@@ -32,7 +32,7 @@ public abstract class Table implements UriRouter.UriRoute {
     protected final int BASE_DIR_CODE = 1;
     protected final int BASE_ITEM_CODE = 2;
 
-    protected Table() {
+    protected SQLTable() {
         mUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         initUriMatcher();
     }
@@ -49,7 +49,9 @@ public abstract class Table implements UriRouter.UriRoute {
     public abstract String getCreateSQL();
 
     public void onCreate(SQLiteDatabase db) {
+        Logger.d("Executing: " + getCreateSQL());
         db.execSQL(getCreateSQL());
+
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -164,7 +166,7 @@ public abstract class Table implements UriRouter.UriRoute {
 
         Cursor cursor = qb.query(db, projection, selection, selectionArgs, null, null, sortOrder);
         /** register to watch a content URI for changes **/
-        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        cursor.setNotificationUri(getContentResolver(), uri);
 
         Logger.d("Queried " + getTableName() + " table, cursor size: " + cursor.getCount());
 

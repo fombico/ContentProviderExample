@@ -9,7 +9,7 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import com.example.providers.R;
-import com.example.providers.tables.ArtistTable;
+import com.example.providers.database.ArtistTable;
 
 public class ArtistCursorAdapter extends CursorAdapter {
 

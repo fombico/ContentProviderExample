@@ -9,7 +9,7 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import com.example.providers.R;
-import com.example.providers.tables.GenreTable;
+import com.example.providers.database.GenreTable;
 
 public class GenreCursorAdapter extends CursorAdapter {
 

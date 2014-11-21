@@ -10,7 +10,7 @@ import android.widget.ListView;
 
 import com.example.providers.R;
 import com.example.providers.adapters.ArtistCursorAdapter;
-import com.example.providers.tables.ArtistTable;
+import com.example.providers.database.ArtistTable;
 
 public class ArtistFragment extends CursorLoaderFragment {
 

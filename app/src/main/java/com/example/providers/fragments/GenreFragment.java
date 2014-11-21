@@ -10,7 +10,7 @@ import android.widget.ListView;
 
 import com.example.providers.R;
 import com.example.providers.adapters.GenreCursorAdapter;
-import com.example.providers.tables.GenreTable;
+import com.example.providers.database.GenreTable;
 
 public class GenreFragment extends CursorLoaderFragment {
 

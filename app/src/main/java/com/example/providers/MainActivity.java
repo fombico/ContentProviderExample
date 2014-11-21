@@ -9,9 +9,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.providers.content.AsyncQueryHandler;
-import com.example.providers.tables.ArtistTable;
-import com.example.providers.tables.GenreTable;
-import com.example.providers.tables.SongTable;
+import com.example.providers.database.ArtistTable;
+import com.example.providers.database.GenreTable;
+import com.example.providers.database.SongTable;
 
 import java.util.Random;
 

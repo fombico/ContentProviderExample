@@ -7,9 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 import com.example.providers.Logger;
-import com.example.providers.tables.ArtistTable;
-import com.example.providers.tables.GenreTable;
-import com.example.providers.tables.SongTable;
+import com.example.providers.database.ArtistTable;
+import com.example.providers.database.GenreTable;
+import com.example.providers.database.SampleSQLView;
+import com.example.providers.database.SongTable;
 
 public class MusicProvider extends ContentProvider {
 
@@ -18,9 +19,9 @@ public class MusicProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        Logger.d("ContentProvider onCreate");
-        mDatabaseHelper = new DatabaseHelper(getContext());
+        Logger.d("ContentProvider onCreate ");
         initUriRouter();
+        mDatabaseHelper = new DatabaseHelper(getContext());
         return true;
     }
 
@@ -29,6 +30,7 @@ public class MusicProvider extends ContentProvider {
         router.addRoute(ArtistTable.getInstance());
         router.addRoute(GenreTable.getInstance());
         router.addRoute(SongTable.getInstance());
+        router.addRoute(SampleSQLView.getInstance());
         Logger.d("added uri routes");
     }
 

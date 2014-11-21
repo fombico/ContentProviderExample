@@ -20,13 +20,13 @@
                 android:id="@+id/main_add_song_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add Song" />
+                android:text="+ Song" />
 
             <Button
                 android:id="@+id/main_remove_song_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Remove Song" />
+                android:text="- Song" />
 
         </LinearLayout>
 
@@ -41,13 +41,13 @@
                 android:id="@+id/main_add_many_artists_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add Many Artists" />
+                android:text="+ Many Artists" />
 
             <Button
                 android:id="@+id/main_remove_all_artists_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Remove All Artists" />
+                android:text="- All Artists" />
         </LinearLayout>
 
         <LinearLayout
@@ -66,22 +66,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Add Many Genres"/>
+                    android:text="+ Many Genres"/>
 
                 <Button
                     android:id="@+id/main_update_all_genre_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Update All Genres" />
+                    android:text="* All Genres" />
             </LinearLayout>
 
             <Button
                 android:id="@+id/main_remove_genre_all_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Remove All Genres" />
+                android:text="- All Genres" />
         </LinearLayout>
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
     </LinearLayout>
 
 
@@ -135,6 +139,15 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:name="com.example.providers.fragments.GenreFragment"
+            tools:layout="@layout/fragment" />
+
+
+        <fragment
+            android:id="@+id/fragment_view_sample"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:name="com.example.providers.fragments.ViewSampleFragment"
             tools:layout="@layout/fragment" />
     </LinearLayout>
 

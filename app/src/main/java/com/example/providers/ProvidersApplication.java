@@ -11,6 +11,7 @@ public class ProvidersApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = this;
+        Logger.d("Application onCreate");
     }
 
     public static Context getContext() {

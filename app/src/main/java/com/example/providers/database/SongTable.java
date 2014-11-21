@@ -1,4 +1,4 @@
-package com.example.providers.tables;
+package com.example.providers.database;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,30 +7,30 @@ import android.text.TextUtils;
 
 import com.example.providers.content.MusicProvider;
 
-public class GenreTable extends Table {
+public class SongTable extends SQLTable {
 
-    public static final String TABLE_NAME = "genre";
+    public static final String TABLE_NAME = "song";
     public static final Uri URI = Uri.parse("content://" + MusicProvider.AUTHORITY + "/" + TABLE_NAME);
 
-    public static class Columns extends Table.Columns {
-        public static final String GENRE_NAME = "genreName";
+    public static class Columns extends SQLTable.Columns {
+        public static final String SONG_NAME = "songName";
     }
 
     private static final String CREATE_SQL =
-            "CREATE TABLE " + TABLE_NAME
-            + "(" + Columns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + Columns.GENRE_NAME + " TEXT NOT NULL, "
-            + "UNIQUE ("+ Columns.GENRE_NAME + ") ON CONFLICT REPLACE);";
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME
+            + "(" + Columns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + Columns.SONG_NAME + " TEXT NOT NULL, "
+            + "UNIQUE (" + Columns.SONG_NAME + ") ON CONFLICT REPLACE);";
 
-    private static GenreTable sTable;
+    private static SongTable sTable;
 
-    private GenreTable() {
+    private SongTable() {
 
     }
 
-    public static GenreTable getInstance() {
+    public static SongTable getInstance() {
         if (sTable == null) {
-            sTable = new GenreTable();
+            sTable = new SongTable();
         }
         return sTable;
     }
@@ -53,7 +53,7 @@ public class GenreTable extends Table {
     @Override
     public Cursor query(SQLiteDatabase db, Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         if (TextUtils.isEmpty(sortOrder)) {
-            sortOrder = Columns.GENRE_NAME;
+            sortOrder = Columns.SONG_NAME;
         }
         return super.query(db, uri, projection, selection, selectionArgs, sortOrder);
     }
